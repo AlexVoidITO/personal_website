@@ -15,7 +15,7 @@ async function bootstrap() {
     next();
   });
 
-  // Проверка SERVICE_MODE (ДО статики)
+
   app.use((req: Request, res: Response, next: NextFunction) => {
     if (req.path.startsWith('/api')) {
       return next();
@@ -37,25 +37,9 @@ async function bootstrap() {
     next();
   });
 
-  app.useStaticAssets(join(process.cwd(), 'public'), {
-    setHeaders: (res, path) => {
-      if (path.match(/\.(gif|png|jpg|jpeg|webp|svg|ico)$/i)) {
-        res.setHeader('Cache-Control', 'public, max-age=604800, immutable');
-      } else {
-        res.setHeader('Cache-Control', 'public, max-age=86400');
-      }
-    },
-  });
-
-  // SPA-обработчик: для всех запросов, кроме /api
-  app.use((req: Request, res: Response, next: NextFunction) => {
-    if (req.path.startsWith('/api')) {
-      return next();
-    }
-    res.sendFile(join(process.cwd(), 'public', 'index.html'));
-  });
 
   app.setGlobalPrefix('api');
+
 
   const server = await app.listen(3000);
   const externalPort = parseInt(process.env.APP_PORT || '8080', 10);
