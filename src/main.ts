@@ -9,7 +9,6 @@ async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
   const logger = new Logger('Bootstrap');
 
-
   app.use((req: Request, res: Response, next: NextFunction) => {
     logger.log(`${req.method} ${req.url}`);
     next();
@@ -37,27 +36,36 @@ async function bootstrap() {
     next();
   });
 
-  //Раздача статики (css, js, картинки)
+  // Раздача статики (css, js, картинки)
   app.useStaticAssets(join(process.cwd(), 'public'));
 
-  // SPA-обработчик: для всех запросов, кроме /api 
+  // SPA-обработчик: для всех запросов, кроме /api
   app.use((req: Request, res: Response, next: NextFunction) => {
     if (req.path.startsWith('/api')) {
-
       return next();
     }
-
     res.sendFile(join(process.cwd(), 'public', 'index.html'));
   });
 
-
   app.setGlobalPrefix('api');
 
+  
+  const port = parseInt(process.env.APP_PORT || process.env.PORT || '3000', 10);
+  const server = await app.listen(port);
+  
+  const address = server.address();
+  let actualPort: number;
+  
+  if (address && typeof address !== 'string') {
+    actualPort = address.port;
+  } else {
 
-  const server = await app.listen(3000);
-  logger.log(` Server is running on: http://localhost:3000`);
-  logger.log(` API LastFm endpoint: http://localhost:3000/api/lastfm`);
-  logger.log(` API Weather endpoint: http://localhost:3000/api/weather`);
-  logger.log(` SERVICE_MODE = ${process.env.SERVICE_MODE || 'false'}`);
+    actualPort = port;
+  }
+
+  logger.log(`🚀 Server is running on: http://localhost:${actualPort}`);
+  logger.log(`📡 API LastFm endpoint: http://localhost:${actualPort}/api/lastfm`);
+  logger.log(`🌦 API Weather endpoint: http://localhost:${actualPort}/api/weather`);
+  logger.log(`🔧 SERVICE_MODE = ${process.env.SERVICE_MODE || 'false'}`);
 }
 bootstrap();
