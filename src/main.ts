@@ -12,7 +12,7 @@ const fileCache = new Map<string, { data: Buffer; contentType: string }>();
 async function warmupCache() {
   const publicDir = join(process.cwd(), 'public');
   if (!existsSync(publicDir)) {
-    console.warn('⚠️ public directory not found, skipping cache warmup');
+    console.warn('public directory not found, skipping cache warmup');
     return;
   }
 
@@ -41,7 +41,10 @@ async function warmupCache() {
         try {
           const data = await readFile(filePath);
           if (contentType.startsWith('image/') || contentType.startsWith('text/')) {
-            const relativePath = filePath.replace(publicDir, '').replace(/\\/g, '/');
+            let relativePath = filePath.replace(publicDir, '').replace(/\\/g, '/');
+            if (!relativePath.startsWith('/')) {
+              relativePath = '/' + relativePath;
+            }
             fileCache.set(relativePath, { data, contentType });
             count++;
           }
@@ -49,10 +52,12 @@ async function warmupCache() {
         }
       }
     }
-    console.log(`✅ Cache warmed up: ${count} files loaded into memory`);
+    console.log(` Cache warmed up: ${count} files loaded into memory`);
+    const keys = Array.from(fileCache.keys()).slice(0, 10);
+    console.log(` Sample cached paths:`, keys);
   } catch (err) {
     const errorMessage = err instanceof Error ? err.message : String(err);
-    console.warn('⚠️ Failed to warm up cache:', errorMessage);
+    console.warn(' Failed to warm up cache:', errorMessage);
   }
 }
 
@@ -60,11 +65,13 @@ async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
   const logger = new Logger('Bootstrap');
 
+  // Логирование запросов
   app.use((req: Request, res: Response, next: NextFunction) => {
     logger.log(`${req.method} ${req.url}`);
     next();
   });
 
+  // SERVICE_MODE
   app.use((req: Request, res: Response, next: NextFunction) => {
     if (req.path.startsWith('/api')) {
       return next();
@@ -86,7 +93,7 @@ async function bootstrap() {
     next();
   });
 
-  // Middleware для отдачи из кеша
+  // Middleware для отдачи из кеша (с логированием)
   app.use((req: Request, res: Response, next: NextFunction) => {
     if (req.path.startsWith('/api') || req.path === '/' || req.path === '/index.html') {
       return next();
@@ -94,14 +101,20 @@ async function bootstrap() {
 
     const cached = fileCache.get(req.path);
     if (cached) {
+      logger.log(` Cache hit: ${req.path} (${cached.contentType})`);
       res.setHeader('Content-Type', cached.contentType);
       res.setHeader('Cache-Control', 'public, max-age=604800, immutable');
-      res.send(cached.data);
+      res.setHeader('Content-Length', cached.data.length);
+      res.write(cached.data);
+      res.end();
       return;
+    } else {
+      logger.log(` Cache miss: ${req.path}`);
     }
 
     next();
   });
+
 
   app.useStaticAssets(join(process.cwd(), 'public'), {
     setHeaders: (res, path) => {
@@ -113,6 +126,7 @@ async function bootstrap() {
     },
   });
 
+  // SPA
   app.use((req: Request, res: Response, next: NextFunction) => {
     if (req.path.startsWith('/api')) {
       return next();
@@ -127,9 +141,9 @@ async function bootstrap() {
   const server = await app.listen(3000);
   const externalPort = parseInt(process.env.APP_PORT || '8080', 10);
 
-  logger.log(`🚀 Server is running on: http://localhost:${externalPort}`);
-  logger.log(`📡 API LastFm endpoint: http://localhost:${externalPort}/api/lastfm`);
-  logger.log(`🌦 API Weather endpoint: http://localhost:${externalPort}/api/weather`);
+  logger.log(` Server is running on: http://localhost:${externalPort}`);
+  logger.log(` API LastFm endpoint: http://localhost:${externalPort}/api/lastfm`);
+  logger.log(` API Weather endpoint: http://localhost:${externalPort}/api/weather`);
   logger.log(`🔧 SERVICE_MODE = ${process.env.SERVICE_MODE || 'false'}`);
 }
 bootstrap();
