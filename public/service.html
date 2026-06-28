@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Технические работы</title>
+
+    <link rel="icon" href="/gifs/koishi_work.gif" type="image/gif" sizes="32x32" />
+    
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet" />
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Press Start 2P', monospace !important;
+            image-rendering: pixelated;
+        }
+        body {
+            background: #020205;
+            background-image: radial-gradient(circle at 30% 40%, #0d0a1a, #000000);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 1.5rem;
+            margin: 0;
+        }
+
+        .marquee {
+            width: 100%;
+            overflow: hidden;
+            background: #0f0f1a;
+            border-top: 2px solid #4c2b7a;
+            border-bottom: 2px solid #4c2b7a;
+            padding: 0.6rem 0;
+            box-shadow: inset 0 -2px 0 0 #2d1b4e, inset 0 2px 0 0 #2d1b4e;
+            flex-shrink: 0;
+            margin: 1rem 0;
+        }
+        .marquee-track {
+            display: flex;
+            gap: 2rem;
+            white-space: nowrap;
+            animation: scrollMarquee 20s linear infinite;
+            width: max-content;
+        }
+        .marquee-track span {
+            color: #a78bfa;
+            font-size: 0.7rem;
+            letter-spacing: 0.15em;
+            flex-shrink: 0;
+        }
+        .marquee-bottom .marquee-track {
+            animation-duration: 24s;
+        }
+        @keyframes scrollMarquee {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+
+        .text-frame {
+            background: #0f0f1a;
+            border: 3px solid #7c3aed;
+            box-shadow: 0 0 0 2px #2d1b4e, 0 8px 0 0 #2d1b4e, inset 0 -4px 0 0 #2d1b4e;
+            padding: 2.5rem 2rem;
+            text-align: center;
+            max-width: 500px;
+            width: 100%;
+            margin: 0.5rem auto;
+        }
+        .text-frame h1 {
+            font-size: 2rem;
+            color: #d8b4fe;
+            text-shadow: 0 4px 0 #2d1b4e, 0 0 20px #7c3aed80;
+            letter-spacing: 0.1em;
+            animation: glowPulse 3s ease-in-out infinite alternate;
+            margin-bottom: 0.5rem;
+        }
+        @keyframes glowPulse {
+            0% { text-shadow: 0 4px 0 #2d1b4e, 0 0 10px rgba(124,58,237,0.6), 0 0 20px rgba(168,85,247,0.4); }
+            100% { text-shadow: 0 4px 0 #2d1b4e, 0 0 30px rgba(168,85,247,0.9), 0 0 60px rgba(124,58,237,0.6); }
+        }
+        .text-frame p {
+            font-size: 0.8rem;
+            color: #a78bfa;
+            line-height: 1.6;
+            margin: 0.5rem 0;
+        }
+
+        .tenor-wrapper {
+            margin: 1rem auto;
+            max-width: 200px;
+            border: 2px solid #4c2b7a;
+            padding: 4px;
+            background: #0d0d18;
+            box-shadow: inset 0 -2px 0 0 #2d1b4e;
+        }
+        .tenor-wrapper .tenor-gif-embed {
+            width: 100% !important;
+            height: auto !important;
+            aspect-ratio: 1.12245;
+        }
+        .tenor-wrapper .tenor-gif-embed iframe {
+            width: 100% !important;
+            height: 100% !important;
+            display: block;
+        }
+
+        .pixel-clock {
+            font-size: 1.8rem;
+            color: #c4a0f0;
+            text-shadow: 0 0 8px #7c3aed80, 0 0 20px #7c3aed40;
+            letter-spacing: 0.15em;
+            margin-top: 0.5rem;
+            display: block;
+        }
+        .clock-label {
+            font-size: 0.4rem;
+            color: #4c2b7a;
+            letter-spacing: 0.1em;
+            margin-top: 0.2rem;
+        }
+        .text-frame .sub {
+            font-size: 0.5rem;
+            color: #4c2b7a;
+            margin-top: 1rem;
+        }
+
+        @media (max-width: 600px) {
+            .text-frame h1 { font-size: 1.5rem; }
+            .marquee-track span { font-size: 0.5rem; }
+            .pixel-clock { font-size: 1.4rem; }
+            .tenor-wrapper { max-width: 140px; }
+        }
+
+        /* ---------- Кнопка переключения языка ---------- */
+        #lang-toggle {
+            position: fixed;
+            top: 50%;
+            right: 20px;
+            transform: translateY(-50%);
+            z-index: 999;
+            writing-mode: vertical-rl;
+            letter-spacing: 0.2em;
+            padding: 0.7rem 0.5rem;
+            font-size: 0.7rem;
+            border-radius: 0;
+            background: #1a1028;
+            border: 2px solid #7c3aed;
+            box-shadow: 0 4px 0 0 #2d1b4e;
+            color: #d8b4fe;
+            cursor: pointer;
+            transition: all 0.1s steps(2);
+        }
+        #lang-toggle:hover {
+            background: #2d1b4e;
+            border-color: #a855f7;
+            box-shadow: 0 2px 0 0 #3b2066;
+            transform: translateY(calc(-50% + 2px));
+            color: #f0e6ff;
+        }
+        @media (max-width: 768px) {
+            #lang-toggle {
+                right: 10px;
+                padding: 0.4rem 0.3rem;
+                font-size: 0.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Кнопка переключения языка -->
+    <button id="lang-toggle" class="pixel-btn">RU</button>
+
+    <!-- ===== ВЕРХНЯЯ БЕГУЩАЯ СТРОКА ===== -->
+    <div class="marquee">
+        <div class="marquee-track" id="marquee-top">
+            <span data-lang-ru="ТЕХНИЧЕСКИЕ РАБОТЫ • ПРИНОСИМ ИЗВИНЕНИЯ • СКОРО ВЕРНЁМСЯ • СЛЕДИТЕ ЗА ОБНОВЛЕНИЯМИ •" data-lang-en="MAINTENANCE • SORRY FOR THE INCONVENIENCE • WE'LL BE BACK SOON • FOLLOW PAGE UPDATES •">ТЕХНИЧЕСКИЕ РАБОТЫ • ПРИНОСИМ ИЗВИНЕНИЯ • СКОРО ВЕРНЁМСЯ • СЛЕДИТЕ ЗА ОБНОВЛЕНИЯМИ •</span>
+            <span data-lang-ru="ТЕХНИЧЕСКИЕ РАБОТЫ • ПРИНОСИМ ИЗВИНЕНИЯ • СКОРО ВЕРНЁМСЯ • СЛЕДИТЕ ЗА ОБНОВЛЕНИЯМИ •" data-lang-en="MAINTENANCE • SORRY FOR THE INCONVENIENCE • WE'LL BE BACK SOON • FOLLOW PAGE UPDATES •">ТЕХНИЧЕСКИЕ РАБОТЫ • ПРИНОСИМ ИЗВИНЕНИЯ • СКОРО ВЕРНЁМСЯ • СЛЕДИТЕ ЗА ОБНОВЛЕНИЯМИ •</span>
+        </div>
+    </div>
+
+    <!-- ===== ОСНОВНАЯ РАМКА ===== -->
+    <div class="text-frame">
+        <h1 id="title" data-lang-ru="🔧 ТЕХНИЧЕСКИЕ РАБОТЫ" data-lang-en="🔧 MAINTENANCE">🔧 ТЕХНИЧЕСКИЕ РАБОТЫ</h1>
+        <p id="desc" data-lang-ru="Идут технические работы. Сайт будет доступен в ближайшее время." data-lang-en="Technical work in progress. The site will be available soon.">Идут технические работы. Сайт будет доступен в ближайшее время.</p>
+
+        <div class="tenor-wrapper">
+            <div class="tenor-gif-embed" data-postid="6751356893193614009" data-share-method="host" data-aspect-ratio="1.12245" data-width="100%">
+                <a href="https://tenor.com/view/sleepy-sleeping-sleeps-sleep-cat-gif-6751356893193614009">Sleepy Sleeping Sticker</a>
+            </div>
+        </div>
+
+        <span class="pixel-clock" id="service-time">00:00:00</span>
+        <div class="clock-label">(UTC+3)</div>
+
+        <p class="sub" id="sub" data-lang-ru="#service_works  •  EST. 2026" data-lang-en="#service_works  •  EST. 2026">#service_works  •  EST. 2026</p>
+    </div>
+
+    <!-- ===== НИЖНЯЯ БЕГУЩАЯ СТРОКА ===== -->
+    <div class="marquee marquee-bottom">
+        <div class="marquee-track" id="marquee-bottom">
+            <span data-lang-ru="САЙТ СТАНЕТ ДОСТУПЕН В БЛИЖАЙШЕЕ ВРЕМЯ • УЖЕ РАБОТАЮ НАД УЛУЧШЕНИЯМИ • СПАСИБО ЗА ТЕРПЕНИЕ •" data-lang-en="SITE WILL BE AVAILABLE SOON • IMPROVEMENTS IN PROGRESS • THANK YOU FOR YOUR PATIENCE •">САЙТ СТАНЕТ ДОСТУПЕН В БЛИЖАЙШЕЕ ВРЕМЯ • УЖЕ РАБОТАЮ НАД УЛУЧШЕНИЯМИ • СПАСИБО ЗА ТЕРПЕНИЕ •</span>
+            <span data-lang-ru="САЙТ СТАНЕТ ДОСТУПЕН В БЛИЖАЙШЕЕ ВРЕМЯ • УЖЕ РАБОТАЮ НАД УЛУЧШЕНИЯМИ • СПАСИБО ЗА ТЕРПЕНИЕ •" data-lang-en="SITE WILL BE AVAILABLE SOON • IMPROVEMENTS IN PROGRESS • THANK YOU FOR YOUR PATIENCE •">САЙТ СТАНЕТ ДОСТУПЕН В БЛИЖАЙШЕЕ ВРЕМЯ • УЖЕ РАБОТАЮ НАД УЛУЧШЕНИЯМИ • СПАСИБО ЗА ТЕРПЕНИЕ •</span>
+        </div>
+    </div>
+
+    <!-- Tenor embed -->
+    <script type="text/javascript" async src="https://tenor.com/embed.js"></script>
+
+    <script>
+        // Переключение языка (аналогично index.html)
+        (function() {
+            const langToggle = document.getElementById('lang-toggle');
+            let currentLang = localStorage.getItem('lang') || 'ru';
+
+            function setLanguage(lang) {
+                document.documentElement.lang = lang;
+                // Все элементы с data-lang-ru/data-lang-en
+                document.querySelectorAll('[data-lang-ru]').forEach(el => {
+                    const text = el.getAttribute(`data-lang-${lang}`);
+                    if (text !== null) {
+                        if (text.includes('<')) {
+                            el.innerHTML = text;
+                        } else {
+                            el.textContent = text;
+                        }
+                    }
+                });
+                // Специальная обработка для бегущих строк (у них две копии)
+                document.querySelectorAll('.marquee-track').forEach(track => {
+                    const spans = track.querySelectorAll('span');
+                    spans.forEach(span => {
+                        const text = span.getAttribute(`data-lang-${lang}`);
+                        if (text !== null) {
+                            span.textContent = text;
+                        }
+                    });
+                });
+                langToggle.textContent = lang === 'ru' ? 'EN' : 'RU';
+                localStorage.setItem('lang', lang);
+                currentLang = lang;
+            }
+
+            langToggle.addEventListener('click', () => {
+                const newLang = currentLang === 'ru' ? 'en' : 'ru';
+                setLanguage(newLang);
+            });
+
+            setLanguage(currentLang);
+        })();
+
+        // Часы
+        function updateServiceClock() {
+            const now = new Date();
+            const options = { timeZone: 'Europe/Moscow', hour12: false };
+            document.getElementById('service-time').textContent = now.toLocaleTimeString('ru-RU', options);
+        }
+        updateServiceClock();
+        setInterval(updateServiceClock, 1000);
+    </script>
+</body>
+</html>

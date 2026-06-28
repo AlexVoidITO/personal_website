@@ -1,0 +1,1083 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Alex Void</title>
+
+    <link rel="icon" href="/gifs/koishi_work.gif" type="image/gif" sizes="32x32" />
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css" />
+    <script src="https://cdn.jsdelivr.net/npm/@iconify/iconify@1.0.7/dist/iconify.min.js"></script>
+
+    <style>
+        /* ... (все стили без изменений, они такие же как в вашем коде) ... */
+        /* Для краткости я не буду переписывать все стили, они такие же */
+        * {
+            font-family: 'Press Start 2P', monospace !important;
+            image-rendering: pixelated;
+        }
+        body {
+            background: #020205;
+            background-image: radial-gradient(circle at 30% 40%, #0d0a1a, #000000);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1.5rem;
+            margin: 0;
+        }
+        .pixel-card {
+            background: #0f0f1a;
+            border: 3px solid #7c3aed;
+            box-shadow: 0 0 0 2px #2d1b4e, 0 8px 0 0 #2d1b4e, inset 0 -4px 0 0 #2d1b4e;
+            image-rendering: pixelated;
+            transition: all 0.15s steps(2);
+            width: 100%;
+        }
+        .pixel-card:hover {
+            border-color: #a855f7;
+            box-shadow: 0 0 0 2px #3b2066, 0 8px 0 0 #3b2066, inset 0 -4px 0 0 #3b2066;
+            transform: translateY(-2px);
+        }
+        .pixel-btn {
+            background: #1a1028;
+            border: 2px solid #7c3aed;
+            box-shadow: 0 4px 0 0 #2d1b4e;
+            transition: all 0.1s steps(2);
+            color: #d8b4fe;
+            font-size: 0.65rem;
+            padding: 0.6rem 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .pixel-btn:hover {
+            background: #2d1b4e;
+            border-color: #a855f7;
+            box-shadow: 0 2px 0 0 #3b2066;
+            transform: translateY(2px);
+            color: #f0e6ff;
+        }
+        .pixel-btn i {
+            color: #a855f7;
+        }
+        .pixel-tag {
+            background: #1a1028;
+            border: 2px solid #4c2b7a;
+            color: #c4a0f0;
+            padding: 0.5rem 0.8rem;
+            font-size: 0.9rem;
+            box-shadow: inset 0 -2px 0 0 #2d1b4e;
+            transition: all 0.25s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 3.2rem;
+            min-height: 3.2rem;
+        }
+        .pixel-tag:hover {
+            background: #2d1b4e;
+            border-color: #a855f7;
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: inset 0 -2px 0 0 #3b2066, 0 4px 0 0 #3b2066,
+                        0 0 20px rgba(168, 85, 247, 0.5),
+                        0 0 40px rgba(168, 85, 247, 0.3);
+        }
+        .pixel-tag .iconify {
+            font-size: 2rem;
+            color: #a78bfa;
+            transition: filter 0.25s ease;
+        }
+        .pixel-tag:hover .iconify {
+            filter: drop-shadow(0 0 8px rgba(168, 85, 247, 0.8))
+                    drop-shadow(0 0 20px rgba(168, 85, 247, 0.4));
+        }
+        .pixel-contact {
+            border: 2px solid #2d1b4e;
+            transition: all 0.1s steps(2);
+            padding: 0.4rem 0.8rem;
+            margin-bottom: 0.25rem;
+            background: #0d0d18;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            color: #c4a0f0;
+            text-decoration: none;
+            font-size: 0.65rem;
+            word-break: break-word;
+        }
+        .pixel-contact:hover {
+            border-color: #a855f7;
+            background: #1a1028;
+            transform: translateX(4px);
+        }
+        .pixel-contact i {
+            color: #a855f7;
+            width: 1.5rem;
+            text-align: center;
+        }
+        .pixel-project:last-child {
+            border-bottom: none;
+        }
+        .pixel-project:hover {
+            padding-left: 0.5rem;
+            border-bottom-color: #a855f7;
+        }
+        .pixel-project .icon-box {
+            background: #1a1028;
+            border: 2px solid #4c2b7a;
+            width: 2.5rem;
+            height: 2.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #a855f7;
+            font-size: 1rem;
+            flex-shrink: 0;
+            box-shadow: inset 0 -2px 0 0 #2d1b4e;
+        }
+        .pixel-project .lang-tag {
+            background: #1a1028;
+            border: 1px solid #4c2b7a;
+            color: #a78bfa;
+            font-size: 0.45rem;
+            padding: 0.15rem 0.6rem;
+            letter-spacing: 0.05em;
+            display: inline-block;
+        }
+        .pixel-clock {
+            font-size: 2.5rem;
+            color: #c4a0f0;
+            text-shadow: 0 0 8px #7c3aed80, 0 0 20px #7c3aed40;
+            letter-spacing: 0.2em;
+        }
+        .pixel-lastfm {
+            background: #0d0d18;
+            border: 2px solid #2d1b4e;
+            padding: 0.8rem;
+            box-shadow: inset 0 -2px 0 0 #2d1b4e;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            text-decoration: none !important;
+            color: inherit !important;
+            transition: border-color 0.15s steps(2), background 0.15s steps(2);
+            flex-wrap: wrap;
+        }
+        .pixel-lastfm:hover {
+            border-color: #a855f7;
+            background: #1a1028;
+            transform: scale(1.005);
+        }
+        .pixel-lastfm .cover {
+            background: linear-gradient(145deg, #2d1b4e, #1a1028);
+            border: 2px solid #4c2b7a;
+            width: 3.5rem;
+            height: 3.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: #a855f7;
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+        .pixel-lastfm .cover img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .pixel-lastfm .track-name,
+        .pixel-lastfm .artist-name {
+            transition: color 0.15s steps(2);
+        }
+        .pixel-lastfm:hover .track-name {
+            color: #d8b4fe;
+        }
+        .pixel-lastfm:hover .artist-name {
+            color: #c4a0f0;
+        }
+        .play-btn {
+            background: #1a1028;
+            border: 2px solid #4c2b7a;
+            color: #a78bfa;
+            padding: 0.3rem 0.6rem;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: all 0.15s steps(2);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 0;
+            box-shadow: inset 0 -2px 0 0 #2d1b4e;
+        }
+        .play-btn:hover {
+            background: #2d1b4e;
+            border-color: #a855f7;
+            color: #f0e6ff;
+            transform: translateY(-2px);
+            box-shadow: inset 0 -2px 0 0 #3b2066, 0 4px 0 0 #3b2066,
+                        0 0 15px rgba(168, 85, 247, 0.4);
+        }
+        .play-btn:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+            transform: none !important;
+            box-shadow: none !important;
+        }
+        .pulse-dot {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            background: #a855f7;
+            box-shadow: 0 0 8px #a855f7;
+            animation: pulse 1.2s steps(2) infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.3; transform: scale(0.8); }
+        }
+        ::-webkit-scrollbar {
+            width: 10px;
+            background: #020205;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #2d1b4e;
+            border: 2px solid #7c3aed;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #4c2b7a;
+        }
+        @keyframes pixelFade {
+            0% { opacity: 0; transform: translateY(12px) scale(0.98); }
+            100% { opacity: 1; transform: translateY(0) scale(1); }
+        }
+        .pixel-fade {
+            animation: pixelFade 0.3s steps(3) forwards;
+            opacity: 0;
+        }
+        .delay-1 { animation-delay: 0.05s; }
+        .delay-2 { animation-delay: 0.1s; }
+        .delay-3 { animation-delay: 0.15s; }
+        .delay-4 { animation-delay: 0.2s; }
+        .delay-5 { animation-delay: 0.25s; }
+        .delay-6 { animation-delay: 0.3s; }
+        .pixel-head {
+            font-size: 0.9rem;
+            letter-spacing: 0.15em;
+            color: #d8b4fe;
+            text-shadow: 0 2px 0 #2d1b4e;
+        }
+        .pixel-head i {
+            color: #a855f7;
+            margin-right: 0.5rem;
+        }
+        .pixel-footer {
+            border-top: 3px solid #2d1b4e;
+            padding: 1rem 0.5rem;
+            margin-top: 2rem;
+            font-size: 0.5rem;
+            color: #7c6a9e;
+            text-align: center;
+            background: #0f0f1a;
+            border-radius: 0 0 8px 8px;
+        }
+        .pixel-footer span, .pixel-footer a {
+            display: inline-block;
+            margin: 0 0.3rem;
+            color: #7c6a9e;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+        .pixel-footer a:hover {
+            color: #a78bfa;
+        }
+        .pixel-footer .separator {
+            color: #4c2b7a;
+            margin: 0 0.2rem;
+        }
+        .pixel-footer i {
+            margin-right: 0.2rem;
+        }
+        .pixel-avatar {
+            border: 3px solid #7c3aed;
+            box-shadow: 0 0 0 4px #2d1b4e, 0 8px 0 0 #2d1b4e;
+            image-rendering: pixelated;
+            transition: all 0.1s steps(2);
+            display: block;
+            width: 100%;
+            height: auto;
+        }
+        .pixel-avatar:hover {
+            transform: scale(1.02);
+            border-color: #a855f7;
+            box-shadow: 0 0 0 4px #3b2066, 0 8px 0 0 #3b2066;
+        }
+        #lang-toggle {
+            position: fixed;
+            top: 50%;
+            right: 20px;
+            transform: translateY(-50%);
+            z-index: 999;
+            writing-mode: vertical-rl;
+            letter-spacing: 0.2em;
+            padding: 0.7rem 0.5rem;
+            font-size: 0.7rem;
+            border-radius: 0;
+            background: #1a1028;
+            border: 2px solid #7c3aed;
+            box-shadow: 0 4px 0 0 #2d1b4e;
+            color: #d8b4fe;
+            cursor: pointer;
+            transition: all 0.1s steps(2);
+        }
+        #lang-toggle:hover {
+            background: #2d1b4e;
+            border-color: #a855f7;
+            box-shadow: 0 2px 0 0 #3b2066;
+            transform: translateY(calc(-50% + 2px));
+            color: #f0e6ff;
+        }
+        @media (max-width: 768px) {
+            #lang-toggle {
+                right: 10px;
+                padding: 0.4rem 0.3rem;
+                font-size: 0.5rem;
+            }
+        }
+        .about-card {
+            background: linear-gradient(145deg, #1a0f2a, #0f0820);
+            border: 3px solid #7c3aed;
+            box-shadow: 0 0 30px rgba(124, 58, 237, 0.2), inset 0 0 30px rgba(124, 58, 237, 0.05);
+            position: relative;
+            transition: all 0.2s steps(2);
+            margin-top: 0.5rem;
+            width: 100%;
+        }
+        .about-card:hover {
+            border-color: #a855f7;
+            box-shadow: 0 0 50px rgba(168, 85, 247, 0.3), inset 0 0 40px rgba(168, 85, 247, 0.1);
+            transform: scale(1.005);
+        }
+        .about-card .corner-tl,
+        .about-card .corner-tr,
+        .about-card .corner-bl,
+        .about-card .corner-br {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            border: 3px solid #a855f7;
+            pointer-events: none;
+            opacity: 0.6;
+        }
+        .about-card .corner-tl { top: -3px; left: -3px; border-right: none; border-bottom: none; }
+        .about-card .corner-tr { top: -3px; right: -3px; border-left: none; border-bottom: none; }
+        .about-card .corner-bl { bottom: -3px; left: -3px; border-right: none; border-top: none; }
+        .about-card .corner-br { bottom: -3px; right: -3px; border-left: none; border-top: none; }
+        .avatar-glow {
+            display: inline-block;
+            padding: 4px;
+            background: linear-gradient(45deg, #7c3aed, #a855f7, #7c3aed);
+            background-size: 200% 200%;
+            animation: glowMove 3s steps(3) infinite;
+            box-shadow: 0 0 30px rgba(124, 58, 237, 0.5);
+        }
+        @keyframes glowMove {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        .avatar-gif-container {
+            width: 128px;
+            height: 128px;
+            overflow: hidden;
+            border: 3px solid #0f0f1a;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #0f0f1a;
+        }
+        .avatar-gif-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .typing-line {
+            display: inline-block;
+            color: #a855f7;
+            animation: blink 1s steps(2) infinite;
+            margin-left: 2px;
+        }
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+        .pixel-tag.interest {
+            background: #1a1028;
+            border: 2px solid #4c2b7a;
+            padding: 0.3rem 0.8rem;
+            font-size: 0.55rem;
+            gap: 6px;
+            box-shadow: inset 0 -2px 0 0 #2d1b4e;
+            transition: all 0.1s steps(2);
+            color: #c4a0f0;
+            cursor: default;
+        }
+        .pixel-tag.interest i {
+            font-size: 0.8rem;
+            color: #a78bfa;
+        }
+        .pixel-tag.interest:hover {
+            background: #2d1b4e;
+            border-color: #a855f7;
+            transform: translateY(-3px);
+            box-shadow: inset 0 -2px 0 0 #3b2066, 0 4px 0 0 #3b2066;
+        }
+        .lastfm-gif-wrapper {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            align-items: stretch;
+        }
+        .lastfm-gif-wrapper > * {
+            flex: 1 1 200px;
+        }
+        .time-gif-wrapper {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: center;
+            gap: 1.5rem;
+        }
+        .time-gif-wrapper img {
+            max-width: 140px;
+            flex-shrink: 0;
+            height: auto;
+            image-rendering: pixelated;
+        }
+        .badge-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: flex-start;
+            gap: 0.4rem;
+            margin-top: 0.5rem;
+        }
+        .badge-container a {
+            display: block;
+            line-height: 0;
+            transition: transform 0.2s ease;
+        }
+        .badge-container a:hover {
+            transform: scale(1.15);
+            z-index: 2;
+        }
+        .badge-container img {
+            border: 1px solid #4c2b7a;
+            box-shadow: inset 0 -2px 0 0 #2d1b4e;
+            image-rendering: pixelated;
+            width: 88px;
+            height: 33px;
+            object-fit: cover;
+        }
+        .weather-gif {
+            width: 100%;
+            max-width: 200px;
+            border-radius: 4px;
+            border: 1px solid #4c2b7a;
+            box-shadow: inset 0 -2px 0 0 #2d1b4e;
+            image-rendering: pixelated;
+            margin: 0 auto;
+            display: block;
+            aspect-ratio: 16/9;
+            object-fit: cover;
+        }
+        .weather-info {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.25rem;
+        }
+        .weather-temp {
+            font-size: 1.2rem;
+            color: #d8b4fe;
+        }
+        .weather-desc {
+            font-size: 0.6rem;
+            color: #a78bfa;
+        }
+        .weather-time {
+            font-size: 0.4rem;
+            color: #4c2b7a;
+        }
+        @media (max-width: 768px) {
+            .about-card {
+                padding: 1.5rem 1rem !important;
+            }
+            .about-card .corner-tl,
+            .about-card .corner-tr,
+            .about-card .corner-bl,
+            .about-card .corner-br {
+                width: 12px;
+                height: 12px;
+                border-width: 2px;
+            }
+            .avatar-glow {
+                padding: 3px;
+            }
+            .avatar-gif-container {
+                width: 100px;
+                height: 100px;
+            }
+            .time-gif-wrapper img {
+                max-width: 100px;
+            }
+            .pixel-tag .iconify {
+                font-size: 1.5rem;
+            }
+            .pixel-tag {
+                min-width: 2.6rem;
+                min-height: 2.6rem;
+                padding: 0.4rem 0.6rem;
+            }
+            .pixel-lastfm {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .play-btn {
+                font-size: 1rem;
+                padding: 0.2rem 0.5rem;
+            }
+            .pixel-footer {
+                font-size: 0.4rem;
+            }
+            .pixel-footer span, .pixel-footer a {
+                margin: 0 0.1rem;
+            }
+            .pixel-clock {
+                font-size: 1.8rem;
+                letter-spacing: 0.1em;
+            }
+            .pixel-contact {
+                font-size: 0.5rem;
+                padding: 0.3rem 0.5rem;
+                gap: 0.5rem;
+            }
+            .pixel-contact i {
+                width: 1.2rem;
+                font-size: 0.8rem;
+            }
+            .pixel-head {
+                font-size: 0.7rem;
+            }
+            .pixel-tag {
+                min-width: 2.2rem;
+                min-height: 2.2rem;
+                padding: 0.3rem 0.5rem;
+                font-size: 0.7rem;
+            }
+            .pixel-tag .iconify {
+                font-size: 1.2rem;
+            }
+            .weather-temp {
+                font-size: 1rem;
+            }
+            .weather-desc {
+                font-size: 0.5rem;
+            }
+            .weather-gif {
+                max-width: 150px;
+            }
+        }
+        @media (max-width: 480px) {
+            .pixel-clock {
+                font-size: 1.4rem;
+            }
+            .pixel-contact {
+                font-size: 0.4rem;
+                padding: 0.2rem 0.4rem;
+                gap: 0.3rem;
+            }
+            .pixel-contact i {
+                width: 1rem;
+                font-size: 0.7rem;
+            }
+            .pixel-head {
+                font-size: 0.6rem;
+            }
+            .pixel-tag {
+                min-width: 1.8rem;
+                min-height: 1.8rem;
+                padding: 0.2rem 0.4rem;
+                font-size: 0.6rem;
+            }
+            .pixel-tag .iconify {
+                font-size: 1rem;
+            }
+            .weather-gif {
+                max-width: 120px;
+            }
+            .badge-container img {
+                width: 70px;
+                height: 26px;
+            }
+        }
+        @media (min-width: 768px) {
+            .pixel-card {
+                padding: 2.5rem 2.5rem !important;
+            }
+        }
+        @media (max-width: 767px) {
+            .pixel-card {
+                padding: 1.5rem 1rem !important;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <button id="lang-toggle" class="pixel-btn">RU</button>
+
+    <div class="w-full max-w-5xl mx-auto">
+        <div class="pixel-card rounded-none p-6 md:p-10 pixel-fade">
+            <div class="about-card p-6 md:p-8 mt-4">
+                <div class="corner-tl"></div>
+                <div class="corner-tr"></div>
+                <div class="corner-bl"></div>
+                <div class="corner-br"></div>
+
+                <div class="flex flex-col md:flex-row items-center md:items-start gap-6 md:gap-8">
+                    <div class="relative flex-shrink-0">
+                        <div class="avatar-glow">
+                            <div class="avatar-gif-container">
+                                <img src="/gifs/koishi_work.gif" alt="Koishi" />
+                            </div>
+                        </div>
+                        <span class="absolute -bottom-1 -right-1 w-4 h-4 bg-purple-500 border-2 border-[#0a0a0f] pulse-dot"></span>
+                    </div>
+
+                    <div class="flex-1 text-center md:text-left">
+                        <h1 class="text-3xl md:text-4xl font-bold text-[#d8b4fe] tracking-wider [text-shadow:_0_4px_0_#2d1b4e,_0_0_20px_#7c3aed80]">
+                            ALEX VOID
+                        </h1>
+                        <div class="flex flex-wrap items-center justify-center md:justify-start gap-2 mt-1 text-[#a78bfa] text-xs">
+                            <i class="bi bi-code text-purple-400"></i>
+                            <span data-lang-ru="Backend-разработчик" data-lang-en="Backend Developer">Backend-разработчик</span>
+                            <span class="typing-line">▌</span>
+                        </div>
+
+                        <div class="mt-4 space-y-2 text-[#c4b0e0] text-xs leading-relaxed max-w-lg">
+                            <p data-lang-ru="Привет! Меня зовут <span class='text-purple-300'>Александр</span>."
+                               data-lang-en="Hi! My name is <span class='text-purple-300'>Alexander</span>.">
+                                Привет! Меня зовут <span class="text-purple-300">Александр</span>.
+                            </p>
+                            <p data-lang-ru="Я занимаюсь <span class='text-purple-300'>бекэнд разработкой</span> для сайтов и веб-приложений."
+                               data-lang-en="I build <span class='text-purple-300'>backends</span> for websites and web apps.">
+                                Я создаю <span class="text-purple-300">бэкенд</span> для сайтов и веб-приложений.
+                            </p>
+                            <p data-lang-ru="Помимо коддинга увлекаюсь <span class='text-purple-300'>робототехникой</span> и <span class='text-purple-300'>рисованием в цифре (свои работы публикую в тг канале)</span>."
+                               data-lang-en="Besides coding, I'm into <span class='text-purple-300'>robotics</span> and <span class='text-purple-300'>digital art (I post my works in my TG channel)</span>.">
+                                Помимо кода увлекаюсь <span class="text-purple-300">робототехникой</span> и <span class="text-purple-300">рисованием в цифре (свои работы публикую в тг канале)</span>.
+                            </p>
+                        </div>
+
+                        <div class="mt-4 text-left">
+                            <span class="text-[#a78bfa] text-xs block mb-2" style="letter-spacing:0.15em;"
+                                  data-lang-ru="МОИ УВЛЕЧЕНИЯ" data-lang-en="MY INTERESTS">
+                                <i class="bi bi-heart text-purple-400 mr-2"></i> МОИ УВЛЕЧЕНИЯ
+                            </span>
+                            <div class="flex flex-wrap items-center gap-3 justify-center md:justify-start">
+                                <span class="pixel-tag interest"><i class="bi bi-robot"></i> <span data-lang-ru="Робототехника" data-lang-en="Robotics">Роботы</span></span>
+                                <span class="pixel-tag interest"><i class="bi bi-palette"></i> <span data-lang-ru="Цифровое Рисование" data-lang-en="Digital Art">Арт</span></span>
+                                <span class="pixel-tag interest"><i class="bi bi-book"></i> <span data-lang-ru="Чтение" data-lang-en="Books">книги</span></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="space-y-5 mt-6">
+
+                <div class="pixel-card rounded-none p-4 pixel-fade delay-1">
+                    <div class="pixel-head"><i class="bi bi-lastfm"></i> <span data-lang-ru="СЕЙЧАС ИГРАЕТ" data-lang-en="NOW PLAYING">СЕЙЧАС ИГРАЕТ</span></div>
+                    <div class="lastfm-gif-wrapper mt-3">
+                        <a href="#" target="_blank" rel="noopener noreferrer" class="pixel-lastfm flex-1 min-w-[200px] lastfm-link" id="lastfm-link">
+                            <div class="cover" id="lastfm-cover"><i class="bi bi-music-note"></i></div>
+                            <div class="flex-1 min-w-0">
+                                <p class="text-[#d8b4fe] text-xs truncate track-name" id="lastfm-track" data-lang-ru="Загрузка..." data-lang-en="Loading...">Загрузка...</p>
+                                <p class="text-[#a78bfa] text-[0.5rem] truncate artist-name" id="lastfm-artist" data-lang-ru="Загрузка..." data-lang-en="Loading...">Загрузка...</p>
+                                <div class="flex items-center gap-2 mt-1 listening-status" id="lastfm-status">
+                                    <span class="pulse-dot w-2 h-2"></span>
+                                    <span class="text-[#4c2b7a] text-[0.4rem]" data-lang-ru="ЗАГРУЗКА" data-lang-en="LOADING">ЗАГРУЗКА</span>
+                                </div>
+                            </div>
+                            <div class="text-right text-[#4c2b7a] text-[0.4rem] listens-count" id="lastfm-count">
+                                <i class="bi bi-headphones"></i> ...
+                            </div>
+                            <button class="play-btn" id="play-btn" title="Открыть на Last.fm" disabled>
+                                <i class="bi bi-box-arrow-up-right"></i>
+                            </button>
+                        </a>
+                    </div>
+                    <p class="text-[#4c2b7a] text-[0.35rem] mt-2 text-center tracking-wider">
+                        <i class="bi bi-lastfm"></i> <span data-lang-ru="ДАННЫЕ С LAST.FM" data-lang-en="LAST.FM DATA">ДАННЫЕ С LAST.FM</span>
+                    </p>
+                </div>
+
+                <div class="pixel-card rounded-none p-4 pixel-fade delay-2">
+                    <div class="pixel-head"><i class="bi bi-terminal"></i> <span data-lang-ru="ТЕХНОЛОГИИ" data-lang-en="TECHNOLOGIES">ТЕХНОЛОГИИ</span></div>
+                    <div class="flex flex-wrap gap-2 mt-3">
+                        <span class="pixel-tag" title="JavaScript">
+                            <span class="iconify" data-icon="simple-icons:javascript"></span>
+                        </span>
+                        <span class="pixel-tag" title="TypeScript">
+                            <span class="iconify" data-icon="simple-icons:typescript"></span>
+                        </span>
+                        <span class="pixel-tag" title="Node.js">
+                            <span class="iconify" data-icon="simple-icons:nodedotjs"></span>
+                        </span>
+                        <span class="pixel-tag" title="Python">
+                            <span class="iconify" data-icon="simple-icons:python"></span>
+                        </span>
+                        <span class="pixel-tag" title="Django">
+                            <span class="iconify" data-icon="simple-icons:django"></span>
+                        </span>
+                        <span class="pixel-tag" title="FastAPI">
+                            <span class="iconify" data-icon="simple-icons:fastapi"></span>
+                        </span>
+                        <span class="pixel-tag" title="PostgreSQL">
+                            <span class="iconify" data-icon="simple-icons:postgresql"></span>
+                        </span>
+                        <span class="pixel-tag" title="MongoDB">
+                            <span class="iconify" data-icon="simple-icons:mongodb"></span>
+                        </span>
+                        <span class="pixel-tag" title="Docker">
+                            <span class="iconify" data-icon="simple-icons:docker"></span>
+                        </span>
+                        <span class="pixel-tag" title="Git">
+                            <span class="iconify" data-icon="simple-icons:git"></span>
+                        </span>
+                        <span class="pixel-tag" title="Tailwind CSS">
+                            <span class="iconify" data-icon="simple-icons:tailwindcss"></span>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="pixel-card rounded-none p-4 pixel-fade delay-3">
+                    <div class="pixel-head"><i class="bi bi-address-book"></i> <span data-lang-ru="КОНТАКТЫ" data-lang-en="CONTACTS">КОНТАКТЫ</span></div>
+                    <div class="mt-3 space-y-1">
+                        <a href="mailto:alexvoidsite@gmail.com" class="pixel-contact">
+                            <i class="bi bi-envelope"></i> alexvoidsite@gmail.com
+                            <span class="ml-auto text-[#4c2b7a] text-[0.4rem] tracking-wider" data-lang-ru="ПОЧТА" data-lang-en="EMAIL">ПОЧТА</span>
+                        </a>
+                        <a href="https://github.com/AlexVoidITO" target="_blank" rel="noopener noreferrer" class="pixel-contact">
+                            <i class="bi bi-github"></i> AlexVoidITO
+                            <span class="ml-auto text-[#4c2b7a] text-[0.4rem] tracking-wider" data-lang-ru="GITHUB" data-lang-en="GITHUB">GITHUB</span>
+                        </a>
+                        <a href="https://t.me/Alexenset" target="_blank" rel="noopener noreferrer" class="pixel-contact">
+                            <i class="bi bi-telegram"></i> Alexenset
+                            <span class="ml-auto text-[#4c2b7a] text-[0.4rem] tracking-wider" data-lang-ru="TELEGRAM" data-lang-en="TELEGRAM">TELEGRAM</span>
+                        </a>
+                        <a href="https://t.me/VoidHubPortal" target="_blank" rel="noopener noreferrer" class="pixel-contact">
+                            <i class="bi bi-telegram"></i> VoidHubPortal
+                            <span class="ml-auto text-[#4c2b7a] text-[0.4rem] tracking-wider" data-lang-ru="TELEGRAM" data-lang-en="TELEGRAM">TELEGRAM</span>
+                        </a>
+                        <a href="#" class="pixel-contact">
+                            <i class="bi bi-geo-alt"></i> <span data-lang-ru="Москва, Россия" data-lang-en="Moscow, Russia">Москва, Россия</span>
+                            <span class="ml-auto text-[#4c2b7a] text-[0.4rem] tracking-wider" data-lang-ru="ЛОКАЦИЯ" data-lang-en="LOCATION">ЛОКАЦИЯ</span>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- ===== БЛОК ВРЕМЕНИ ===== -->
+                <div class="pixel-card rounded-none p-4 pixel-fade delay-4">
+                    <div class="pixel-head"><i class="bi bi-clock"></i> <span data-lang-ru="ТЕКУЩЕЕ ВРЕМЯ" data-lang-en="CURRENT TIME">ТЕКУЩЕЕ ВРЕМЯ</span></div>
+                    <div class="time-gif-wrapper text-center py-2">
+                        <div>
+                            <span id="current-time" class="pixel-clock">00:00:00</span>
+                            <span class="block text-[#4c2b7a] text-[0.4rem] mt-1 tracking-wider">(UTC+3)</span>
+                        </div>
+                        <img id="gif-scarlet" src="/gifs/flandre.gif" alt="Flandre" />
+                        <img id="gif-remilia" src="/gifs/remilia.gif" alt="Remilia" style="display:none;" />
+                    </div>
+                </div>
+
+                <!-- ===== БЛОК ПОГОДЫ ===== -->
+                <div class="pixel-card rounded-none p-4 pixel-fade delay-5">
+                    <div class="pixel-head"><i class="bi bi-cloud-sun"></i> <span data-lang-ru="ПОГОДА" data-lang-en="WEATHER">ПОГОДА</span></div>
+                    <div id="weather-container" class="weather-info">
+                        <span class="text-[#4c2b7a] text-[0.4rem] tracking-wider" data-lang-ru="ЗАГРУЗКА..." data-lang-en="LOADING...">ЗАГРУЗКА...</span>
+                    </div>
+                </div>
+
+                <!-- ===== БЛОК БЕЙДЖИКОВ ===== -->
+                <div class="pixel-card rounded-none p-4 pixel-fade delay-6">
+                    <div class="pixel-head"><i class="bi bi-award"></i> <span data-lang-ru="БЕЙДЖИКИ" data-lang-en="BADGES">БЕЙДЖИКИ</span></div>
+                    <div class="badge-container">
+                        <a href="https://glutesha.me" target="_blank" rel="noopener noreferrer">
+                            <img src="/badges/glutesha.png" alt="glutesha" />
+                        </a>
+                        <a href="https://alexvoid.ru" target="_blank" rel="noopener noreferrer">
+                            <img src="/badges/alex_void.png" alt="Alex Void" />
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- ===== ФУТЕР С СТАТИЧЕСКОЙ ДАТОЙ ===== -->
+            <div class="pixel-footer">
+                <span><i class="bi bi-person"></i> alex_void</span>
+                <span class="separator">/</span>
+                <span><i class="bi bi-calendar"></i> last updated 2026-06-28</span>
+                <span class="separator">/</span>
+                <a href="#" target="_blank"><i class="bi bi-code-square"></i> source code</a>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+
+            // === ПЕРЕКЛЮЧЕНИЕ ЯЗЫКА ===
+            (function() {
+                const langToggle = document.getElementById('lang-toggle');
+                let currentLang = localStorage.getItem('lang') || 'ru';
+
+                function setLanguage(lang) {
+                    document.documentElement.lang = lang;
+                    document.querySelectorAll('[data-lang-ru]').forEach(el => {
+                        const text = el.getAttribute(`data-lang-${lang}`);
+                        if (text !== null) {
+                            if (text.includes('<')) {
+                                el.innerHTML = text;
+                            } else {
+                                el.textContent = text;
+                            }
+                        }
+                    });
+                    const statusEl = document.getElementById('lastfm-status');
+                    if (statusEl) {
+                        const currentText = statusEl.textContent.trim();
+                        if (currentText === 'ЗАГРУЗКА' || currentText === 'LOADING') {
+                            const newText = lang === 'ru' ? 'ЗАГРУЗКА' : 'LOADING';
+                            statusEl.innerHTML = `<span class="pulse-dot w-2 h-2"></span> <span class="text-[#4c2b7a] text-[0.4rem]">${newText}</span>`;
+                        }
+                    }
+                    // Перезапрашиваем погоду с новым языком
+                    if (window.fetchWeather) {
+                        window.fetchWeather();
+                    }
+                    langToggle.textContent = lang === 'ru' ? 'EN' : 'RU';
+                    localStorage.setItem('lang', lang);
+                    currentLang = lang;
+                }
+
+                langToggle.addEventListener('click', () => {
+                    const newLang = currentLang === 'ru' ? 'en' : 'ru';
+                    setLanguage(newLang);
+                });
+
+                setLanguage(currentLang);
+            })();
+
+            // === ЧАСЫ ===
+            function updateClock() {
+                const now = new Date();
+                const options = { timeZone: 'Europe/Moscow', hour12: false };
+                const timeStr = now.toLocaleTimeString('ru-RU', options);
+                const currentTimeEl = document.getElementById('current-time');
+                if (currentTimeEl) currentTimeEl.textContent = timeStr;
+
+                const hour = now.getHours();
+                const scarlet = document.getElementById('gif-scarlet');
+                const remilia = document.getElementById('gif-remilia');
+                if (scarlet && remilia) {
+                    if (hour >= 1 && hour <= 7) {
+                        scarlet.style.display = 'none';
+                        remilia.style.display = 'block';
+                    } else {
+                        scarlet.style.display = 'block';
+                        remilia.style.display = 'none';
+                    }
+                }
+            }
+            updateClock();
+            setInterval(updateClock, 1000);
+
+            // === LAST.FM ===
+            (function() {
+                const trackNameEl = document.getElementById('lastfm-track');
+                const artistNameEl = document.getElementById('lastfm-artist');
+                const coverEl = document.getElementById('lastfm-cover');
+                const statusEl = document.getElementById('lastfm-status');
+                const countEl = document.getElementById('lastfm-count');
+                const linkEl = document.getElementById('lastfm-link');
+                const playBtn = document.getElementById('play-btn');
+
+                if (!trackNameEl || !artistNameEl || !coverEl || !statusEl || !countEl || !linkEl || !playBtn) {
+                    console.warn('Some Last.fm elements not found');
+                    return;
+                }
+
+                function getCurrentLang() {
+                    return localStorage.getItem('lang') || 'ru';
+                }
+
+                function updateLastfm() {
+                    fetch('/api/lastfm')
+                        .then(res => {
+                            if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
+                            return res.json();
+                        })
+                        .then(data => {
+                            if (data.error) {
+                                console.warn('Last.fm error:', data.error);
+                                const lang = getCurrentLang();
+                                trackNameEl.textContent = lang === 'ru' ? 'Ошибка загрузки' : 'Loading error';
+                                artistNameEl.textContent = lang === 'ru' ? 'Недоступно' : 'Unavailable';
+                                statusEl.innerHTML = `<span class="text-[#ff6b6b] text-[0.4rem]">${lang === 'ru' ? 'ОШИБКА' : 'ERROR'}</span>`;
+                                countEl.innerHTML = `<i class="bi bi-headphones"></i> --`;
+                                coverEl.innerHTML = `<i class="bi bi-music-note"></i>`;
+                                linkEl.href = '#';
+                                playBtn.disabled = true;
+                                return;
+                            }
+                            trackNameEl.textContent = data.name || '—';
+                            artistNameEl.textContent = data.artist || '—';
+                            if (data.image) {
+                                coverEl.innerHTML = `<img src="${data.image}" alt="cover" />`;
+                            } else {
+                                coverEl.innerHTML = `<i class="bi bi-music-note"></i>`;
+                            }
+                            if (data.url) {
+                                linkEl.href = data.url;
+                                linkEl.target = '_blank';
+                                linkEl.rel = 'noopener noreferrer';
+                                playBtn.disabled = false;
+                                playBtn.onclick = (e) => {
+                                    e.stopPropagation();
+                                    window.open(data.url, '_blank');
+                                };
+                            } else {
+                                linkEl.href = '#';
+                                linkEl.removeAttribute('target');
+                                linkEl.removeAttribute('rel');
+                                playBtn.disabled = true;
+                                playBtn.onclick = null;
+                            }
+                            const lang = getCurrentLang();
+                            if (data.nowPlaying) {
+                                statusEl.innerHTML = `<span class="pulse-dot w-2 h-2"></span> <span class="text-[#4c2b7a] text-[0.4rem]">${lang === 'ru' ? 'СЛУШАЮТ СЕЙЧАС' : 'LISTENING NOW'}</span>`;
+                            } else {
+                                statusEl.innerHTML = `<span class="text-[#4c2b7a] text-[0.4rem]">${lang === 'ru' ? 'ПОСЛЕДНИЙ ТРЕК' : 'LAST TRACK'}</span>`;
+                            }
+                            countEl.innerHTML = `<i class="bi bi-headphones"></i> ${Math.floor(Math.random() * 100 + 50)}`;
+                        })
+                        .catch(err => {
+                            console.error('Ошибка при запросе Last.fm:', err);
+                            const lang = getCurrentLang();
+                            trackNameEl.textContent = lang === 'ru' ? 'Ошибка соединения' : 'Connection error';
+                            artistNameEl.textContent = lang === 'ru' ? 'Недоступно' : 'Unavailable';
+                            statusEl.innerHTML = `<span class="text-[#ff6b6b] text-[0.4rem]">${lang === 'ru' ? 'ОШИБКА' : 'ERROR'}</span>`;
+                            countEl.innerHTML = `<i class="bi bi-headphones"></i> --`;
+                            coverEl.innerHTML = `<i class="bi bi-music-note"></i>`;
+                            linkEl.href = '#';
+                            playBtn.disabled = true;
+                            playBtn.onclick = null;
+                        });
+                }
+
+                updateLastfm();
+                setInterval(updateLastfm, 30000);
+            })();
+
+            // === ПОГОДА ===
+            (function() {
+                const container = document.getElementById('weather-container');
+                if (!container) return;
+
+                const weatherTranslations = {
+                    'Ясно': { ru: 'Ясно', en: 'Clear' },
+                    'Облачно': { ru: 'Облачно', en: 'Cloudy' },
+                    'Туман': { ru: 'Туман', en: 'Foggy' },
+                    'Дождь': { ru: 'Дождь', en: 'Rainy' },
+                    'Снег': { ru: 'Снег', en: 'Snowy' },
+                    'Гроза': { ru: 'Гроза', en: 'Stormy' },
+                    'Неизвестно': { ru: 'Неизвестно', en: 'Unknown' }
+                };
+
+                function translateWeather(text, lang) {
+                    return weatherTranslations[text]?.[lang] || text;
+                }
+
+                function getWeatherInfo(code) {
+                    const groups = [
+                        { codes: [0], text: 'Ясно', gif: '/gifs/weather/sunny.gif' },
+                        { codes: [1, 2, 3], text: 'Облачно', gif: '/gifs/weather/cloudy.gif' },
+                        { codes: [45, 48], text: 'Туман', gif: '/gifs/weather/foggy.gif' },
+                        { codes: [51, 53, 55, 56, 57, 61, 63, 65, 66, 67, 80, 81, 82], text: 'Дождь', gif: '/gifs/weather/rainy.gif' },
+                        { codes: [71, 73, 75, 77, 85, 86], text: 'Снег', gif: '/gifs/weather/snowy.gif' },
+                        { codes: [95, 96, 99], text: 'Гроза', gif: '/gifs/weather/stormy.gif' },
+                    ];
+                    const group = groups.find(g => g.codes.includes(code));
+                    return group || { text: 'Неизвестно', gif: null };
+                }
+
+                function fetchWeather() {
+                    const lang = localStorage.getItem('lang') || 'ru';
+                    container.innerHTML = `<span class="text-[#4c2b7a] text-[0.4rem] tracking-wider">${lang === 'ru' ? 'ЗАГРУЗКА...' : 'LOADING...'}</span>`;
+
+                    fetch('/api/weather')
+                        .then(res => {
+                            if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
+                            return res.json();
+                        })
+                        .then(data => {
+                            if (data.error) {
+                                console.warn('Weather API error:', data.error);
+                                container.innerHTML = `<span class="text-[#ff6b6b] text-[0.4rem] tracking-wider">${lang === 'ru' ? 'ОШИБКА ЗАГРУЗКИ' : 'LOADING ERROR'}</span>`;
+                                return;
+                            }
+                            const temp = data.temperature;
+                            const code = data.weathercode;
+                            const info = getWeatherInfo(code);
+                            const desc = info.text;
+                            const translatedDesc = translateWeather(desc, lang);
+                            const gifPath = info.gif;
+
+                            let gifHtml = '';
+                            if (gifPath) {
+                                gifHtml = `<img src="${gifPath}" alt="${translatedDesc}" class="weather-gif" loading="lazy" />`;
+                            } else {
+                                gifHtml = `<div style="width:200px;height:112px;background:#1a1028;border:1px solid #4c2b7a;display:flex;align-items:center;justify-content:center;color:#4c2b7a;font-size:0.4rem;">${lang === 'ru' ? 'Нет гифки' : 'No GIF'}</div>`;
+                            }
+
+                            container.innerHTML = `
+                                ${gifHtml}
+                                <div class="weather-temp">${temp}°C</div>
+                                <div class="weather-desc">${translatedDesc}</div>
+                                <div class="weather-time">${data.time}</div>
+                            `;
+                        })
+                        .catch(err => {
+                            console.error('Ошибка получения погоды:', err);
+                            container.innerHTML = `<span class="text-[#ff6b6b] text-[0.4rem] tracking-wider">${lang === 'ru' ? 'ОШИБКА ЗАГРУЗКИ' : 'LOADING ERROR'}</span>`;
+                        });
+                }
+
+                window.fetchWeather = fetchWeather;
+                fetchWeather();
+                setInterval(fetchWeather, 600000);
+            })();
+
+        });
+    </script>
+</body>
+</html> 
