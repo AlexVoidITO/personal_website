@@ -14,15 +14,3 @@ services:
       - ./public:/app/public   
     restart: always
 
-  portainer:
-    image: portainer/portainer-ce:latest
-    command: -H unix:///var/run/docker.sock
-    ports:
-      - "${PORTAINER_PORT:-9000}:9000"  
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-      - portainer_data:/data
-    restart: unless-stopped
-
-volumes:
-  portainer_data:
