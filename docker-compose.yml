@@ -7,8 +7,6 @@ services:
     environment:
       - SERVICE_MODE=${SERVICE_MODE}
       - LASTFM_API_KEY=${LASTFM_API_KEY}
-      - LASTFM_USER=${LASTFM_USER}
-    volumes:
-      - ./public:/app/public   
+      - LASTFM_USER=${LASTFM_USER}  
     restart: always
 
