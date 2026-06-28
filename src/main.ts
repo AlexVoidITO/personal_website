@@ -4,62 +4,6 @@ import { NestExpressApplication } from '@nestjs/platform-express';
 import { join } from 'path';
 import { Request, Response, NextFunction } from 'express';
 import { HttpStatus, Logger } from '@nestjs/common';
-import { readdir, readFile } from 'fs/promises';
-import { existsSync } from 'fs';
-
-const fileCache = new Map<string, { data: Buffer; contentType: string }>();
-
-async function warmupCache() {
-  const publicDir = join(process.cwd(), 'public');
-  if (!existsSync(publicDir)) {
-    console.warn('public directory not found, skipping cache warmup');
-    return;
-  }
-
-  const mimeTypes: Record<string, string> = {
-    '.gif': 'image/gif',
-    '.png': 'image/png',
-    '.jpg': 'image/jpeg',
-    '.jpeg': 'image/jpeg',
-    '.webp': 'image/webp',
-    '.svg': 'image/svg+xml',
-    '.ico': 'image/x-icon',
-    '.css': 'text/css',
-    '.js': 'application/javascript',
-    '.html': 'text/html',
-    '.txt': 'text/plain',
-  };
-
-  try {
-    const files = await readdir(publicDir, { withFileTypes: true, recursive: true });
-    let count = 0;
-    for (const file of files) {
-      if (file.isFile()) {
-        const filePath = join(file.parentPath || publicDir, file.name);
-        const ext = file.name.split('.').pop()?.toLowerCase() || '';
-        const contentType = mimeTypes[`.${ext}`] || 'application/octet-stream';
-        try {
-          const data = await readFile(filePath);
-          if (contentType.startsWith('image/') || contentType.startsWith('text/')) {
-            let relativePath = filePath.replace(publicDir, '').replace(/\\/g, '/');
-            if (!relativePath.startsWith('/')) {
-              relativePath = '/' + relativePath;
-            }
-            fileCache.set(relativePath, { data, contentType });
-            count++;
-          }
-        } catch {
-        }
-      }
-    }
-    console.log(` Cache warmed up: ${count} files loaded into memory`);
-    const keys = Array.from(fileCache.keys()).slice(0, 10);
-    console.log(` Sample cached paths:`, keys);
-  } catch (err) {
-    const errorMessage = err instanceof Error ? err.message : String(err);
-    console.warn(' Failed to warm up cache:', errorMessage);
-  }
-}
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
@@ -71,7 +15,7 @@ async function bootstrap() {
     next();
   });
 
-  // SERVICE_MODE
+  // Проверка SERVICE_MODE (ДО статики)
   app.use((req: Request, res: Response, next: NextFunction) => {
     if (req.path.startsWith('/api')) {
       return next();
@@ -93,29 +37,6 @@ async function bootstrap() {
     next();
   });
 
-  // Middleware для отдачи из кеша (с логированием)
-  app.use((req: Request, res: Response, next: NextFunction) => {
-    if (req.path.startsWith('/api') || req.path === '/' || req.path === '/index.html') {
-      return next();
-    }
-
-    const cached = fileCache.get(req.path);
-    if (cached) {
-      logger.log(` Cache hit: ${req.path} (${cached.contentType})`);
-      res.setHeader('Content-Type', cached.contentType);
-      res.setHeader('Cache-Control', 'public, max-age=604800, immutable');
-      res.setHeader('Content-Length', cached.data.length);
-      res.write(cached.data);
-      res.end();
-      return;
-    } else {
-      logger.log(` Cache miss: ${req.path}`);
-    }
-
-    next();
-  });
-
-
   app.useStaticAssets(join(process.cwd(), 'public'), {
     setHeaders: (res, path) => {
       if (path.match(/\.(gif|png|jpg|jpeg|webp|svg|ico)$/i)) {
@@ -126,7 +47,7 @@ async function bootstrap() {
     },
   });
 
-  // SPA
+  // SPA-обработчик: для всех запросов, кроме /api
   app.use((req: Request, res: Response, next: NextFunction) => {
     if (req.path.startsWith('/api')) {
       return next();
@@ -136,14 +57,12 @@ async function bootstrap() {
 
   app.setGlobalPrefix('api');
 
-  warmupCache();
-
   const server = await app.listen(3000);
   const externalPort = parseInt(process.env.APP_PORT || '8080', 10);
 
   logger.log(` Server is running on: http://localhost:${externalPort}`);
   logger.log(` API LastFm endpoint: http://localhost:${externalPort}/api/lastfm`);
   logger.log(` API Weather endpoint: http://localhost:${externalPort}/api/weather`);
-  logger.log(`🔧 SERVICE_MODE = ${process.env.SERVICE_MODE || 'false'}`);
+  logger.log(` SERVICE_MODE = ${process.env.SERVICE_MODE || 'false'}`);
 }
 bootstrap();
