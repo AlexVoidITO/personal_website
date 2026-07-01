@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Alex Void</title>
 
-    <link rel="icon" href="/gifs/koishi_work.gif" type="image/gif" sizes="32x32" />
+    <link rel="icon" href="/favicon.ico" />
 
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet" />
@@ -13,8 +13,6 @@
     <script src="https://cdn.jsdelivr.net/npm/@iconify/iconify@1.0.7/dist/iconify.min.js"></script>
 
     <style>
-        /* ... (все стили без изменений, они такие же как в вашем коде) ... */
-        /* Для краткости я не буду переписывать все стили, они такие же */
         * {
             font-family: 'Press Start 2P', monospace !important;
             image-rendering: pixelated;
@@ -404,7 +402,7 @@
             justify-content: center;
             background: #0f0f1a;
         }
-        .avatar-gif-container img {
+        .avatar-gif-container video {
             width: 100%;
             height: 100%;
             object-fit: cover;
@@ -456,7 +454,7 @@
             justify-content: center;
             gap: 1.5rem;
         }
-        .time-gif-wrapper img {
+        .time-gif-wrapper video {
             max-width: 140px;
             flex-shrink: 0;
             height: auto;
@@ -535,7 +533,7 @@
                 width: 100px;
                 height: 100px;
             }
-            .time-gif-wrapper img {
+            .time-gif-wrapper video {
                 max-width: 100px;
             }
             .pixel-tag .iconify {
@@ -656,7 +654,7 @@
                     <div class="relative flex-shrink-0">
                         <div class="avatar-glow">
                             <div class="avatar-gif-container">
-                                <img src="/gifs/koishi_work.gif" alt="Koishi" />
+                                <video autoplay loop muted playsinline src="/gifs/koishi_work.mp4" alt="Koishi"></video>
                             </div>
                         </div>
                         <span class="absolute -bottom-1 -right-1 w-4 h-4 bg-purple-500 border-2 border-[#0a0a0f] pulse-dot"></span>
@@ -802,8 +800,8 @@
                             <span id="current-time" class="pixel-clock">00:00:00</span>
                             <span class="block text-[#4c2b7a] text-[0.4rem] mt-1 tracking-wider">(UTC+3)</span>
                         </div>
-                        <img id="gif-scarlet" src="/gifs/flandre.gif" alt="Flandre" />
-                        <img id="gif-remilia" src="/gifs/remilia.gif" alt="Remilia" style="display:none;" />
+                        <video id="gif-scarlet" autoplay loop muted playsinline src="/gifs/flandre.mp4"></video>
+                        <video id="gif-remilia" autoplay loop muted playsinline src="/gifs/remilia.mp4" style="display:none;"></video>
                     </div>
                 </div>
 
@@ -1019,12 +1017,12 @@
 
                 function getWeatherInfo(code) {
                     const groups = [
-                        { codes: [0], text: 'Ясно', gif: '/gifs/weather/sunny.gif' },
-                        { codes: [1, 2, 3], text: 'Облачно', gif: '/gifs/weather/cloudy.gif' },
-                        { codes: [45, 48], text: 'Туман', gif: '/gifs/weather/foggy.gif' },
-                        { codes: [51, 53, 55, 56, 57, 61, 63, 65, 66, 67, 80, 81, 82], text: 'Дождь', gif: '/gifs/weather/rainy.gif' },
-                        { codes: [71, 73, 75, 77, 85, 86], text: 'Снег', gif: '/gifs/weather/snowy.gif' },
-                        { codes: [95, 96, 99], text: 'Гроза', gif: '/gifs/weather/stormy.gif' },
+                        { codes: [0], text: 'Ясно', gif: '/gifs/weather/sunny.mp4' },
+                        { codes: [1, 2, 3], text: 'Облачно', gif: '/gifs/weather/cloudy.mp4' },
+                        { codes: [45, 48], text: 'Туман', gif: '/gifs/weather/foggy.mp4' },
+                        { codes: [51, 53, 55, 56, 57, 61, 63, 65, 66, 67, 80, 81, 82], text: 'Дождь', gif: '/gifs/weather/rainy.mp4' },
+                        { codes: [71, 73, 75, 77, 85, 86], text: 'Снег', gif: '/gifs/weather/snowy.mp4' },
+                        { codes: [95, 96, 99], text: 'Гроза', gif: '/gifs/weather/stormy.mp4' },
                     ];
                     const group = groups.find(g => g.codes.includes(code));
                     return group || { text: 'Неизвестно', gif: null };
@@ -1050,17 +1048,17 @@
                             const info = getWeatherInfo(code);
                             const desc = info.text;
                             const translatedDesc = translateWeather(desc, lang);
-                            const gifPath = info.gif;
+                            const videoPath = info.gif;
 
-                            let gifHtml = '';
-                            if (gifPath) {
-                                gifHtml = `<img src="${gifPath}" alt="${translatedDesc}" class="weather-gif" loading="lazy" />`;
+                            let videoHtml = '';
+                            if (videoPath) {
+                                videoHtml = `<video autoplay loop muted playsinline src="${videoPath}" class="weather-gif" loading="lazy"></video>`;
                             } else {
-                                gifHtml = `<div style="width:200px;height:112px;background:#1a1028;border:1px solid #4c2b7a;display:flex;align-items:center;justify-content:center;color:#4c2b7a;font-size:0.4rem;">${lang === 'ru' ? 'Нет гифки' : 'No GIF'}</div>`;
+                                videoHtml = `<div style="width:200px;height:112px;background:#1a1028;border:1px solid #4c2b7a;display:flex;align-items:center;justify-content:center;color:#4c2b7a;font-size:0.4rem;">${lang === 'ru' ? 'Нет видео' : 'No video'}</div>`;
                             }
 
                             container.innerHTML = `
-                                ${gifHtml}
+                                ${videoHtml}
                                 <div class="weather-temp">${temp}°C</div>
                                 <div class="weather-desc">${translatedDesc}</div>
                                 <div class="weather-time">${data.time}</div>
@@ -1080,4 +1078,4 @@
         });
     </script>
 </body>
-</html> 
+</html>
