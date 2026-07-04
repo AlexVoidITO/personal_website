@@ -50,11 +50,7 @@ async function bootstrap() {
     }
   });
 
-<<<<<<< HEAD
-
-=======
   // Глобальный префикс для всех контроллеров
->>>>>>> c968dc1 (remote server test)
   app.setGlobalPrefix('api');
 
   const server = await app.listen(3000);
