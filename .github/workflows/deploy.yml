@@ -22,7 +22,7 @@ jobs:
             git fetch --all
             git reset --hard origin/master
             LAST_COMMIT_DATE=$(TZ=Europe/Moscow git log -1 --format=%ad --date=format:'%Y-%m-%d %H:%M')
-            sed -i.bak "s/{{LAST_UPDATED}}/$LAST_COMMIT_DATE/g" index.html
+            sed -i.bak "s/{{LAST_UPDATED}}/$LAST_COMMIT_DATE/g" public/index.html
             docker compose down
             if command -v rsync &> /dev/null; then
                 rsync -av --delete public/ /var/www/voidsite/public/
