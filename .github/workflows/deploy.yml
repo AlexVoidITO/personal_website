@@ -8,6 +8,17 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
+
+      - name: Check SSH key
+        run: |
+          if [ -n "${{ secrets.SSH_PRIVATE_KEY }}" ]; then
+            echo "SSH key is not empty"
+          else
+            echo "SSH key is empty!"
+            exit 1
+          fi
+
+
       - name: Install SSH key
         uses: webfactory/ssh-agent@v0.9.0
         with:
