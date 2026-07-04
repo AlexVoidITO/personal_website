@@ -31,8 +31,13 @@ jobs:
             fi
             docker compose up -d --build
             sudo systemctl reload nginx.service || true
-            echo "Проверка статуса контейнеров:"
-            docker ps
+            echo "Проверка статуса контейнеров"
+            if [ "$(docker compose ps -q | wc -l)" -eq 0 ]; then
+                echo "Контейнеры не запущены!"
+                exit 1
+            else
+                echo "Контейнеры запущены"
+            fi
             echo "Проверка веб-сервера (порт 80)..."
             curl -fsS -o /dev/null http://localhost || exit 1
             echo "Веб-сервер в норме"
