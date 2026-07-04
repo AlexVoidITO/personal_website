@@ -20,7 +20,7 @@ jobs:
             set -e
             cd /home/personal/personal_website
             git fetch --all
-            git reset --hard origin/main
+            git reset --hard origin/master
             docker compose down
             if command -v rsync &> /dev/null; then
                 rsync -av --delete public/ /var/www/voidsite/public/
