@@ -4,6 +4,7 @@ import { NestExpressApplication } from '@nestjs/platform-express';
 import { join } from 'path';
 import { Request, Response, NextFunction } from 'express';
 import { HttpStatus, Logger } from '@nestjs/common';
+import * as express from 'express'; 
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
@@ -15,7 +16,7 @@ async function bootstrap() {
     next();
   });
 
-
+  // Проверка SERVICE_MODE 
   app.use((req: Request, res: Response, next: NextFunction) => {
     if (req.path.startsWith('/api')) {
       return next();
@@ -38,8 +39,19 @@ async function bootstrap() {
   });
 
 
-  app.setGlobalPrefix('api');
+  app.use(express.static(join(process.cwd(), 'public')));
 
+
+  app.use((req: Request, res: Response, next: NextFunction) => {
+    if (!req.path.startsWith('/api')) {
+      res.sendFile(join(process.cwd(), 'public', 'index.html'));
+    } else {
+      next();
+    }
+  });
+
+
+  app.setGlobalPrefix('api');
 
   const server = await app.listen(3000);
   const externalPort = parseInt(process.env.APP_PORT || '8080', 10);

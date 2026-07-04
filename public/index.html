@@ -195,6 +195,16 @@
         .pixel-lastfm .track-name,
         .pixel-lastfm .artist-name {
             transition: color 0.15s steps(2);
+            max-width: 100%;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+        .pixel-lastfm .track-text-wrapper {
+            flex: 1 1 0;
+            min-width: 0;
+            max-width: 100%;
+            overflow: hidden;
         }
         .pixel-lastfm:hover .track-name {
             color: #d8b4fe;
@@ -215,6 +225,7 @@
             justify-content: center;
             border-radius: 0;
             box-shadow: inset 0 -2px 0 0 #2d1b4e;
+            flex-shrink: 0;
         }
         .play-btn:hover {
             background: #2d1b4e;
@@ -514,6 +525,7 @@
             font-size: 0.4rem;
             color: #4c2b7a;
         }
+
         @media (max-width: 768px) {
             .about-card {
                 padding: 1.5rem 1rem !important;
@@ -547,6 +559,19 @@
             .pixel-lastfm {
                 flex-direction: column;
                 align-items: flex-start;
+            }
+            .pixel-lastfm .track-text-wrapper {
+                width: 100%;
+                overflow: visible;
+                min-width: 0;
+            }
+            .pixel-lastfm .track-name,
+            .pixel-lastfm .artist-name {
+                white-space: normal !important;
+                word-break: break-word;
+                overflow: visible;
+                text-overflow: clip;
+                display: block;
             }
             .play-btn {
                 font-size: 1rem;
@@ -592,7 +617,16 @@
             .weather-gif {
                 max-width: 150px;
             }
+            .pixel-lastfm .track-name {
+                font-size: 0.6rem;
+                line-height: 1.5;
+            }
+            .pixel-lastfm .artist-name {
+                font-size: 0.45rem;
+                line-height: 1.5;
+            }
         }
+
         @media (max-width: 480px) {
             .pixel-clock {
                 font-size: 1.4rem;
@@ -625,7 +659,14 @@
                 width: 70px;
                 height: 26px;
             }
+            .pixel-lastfm .track-name {
+                font-size: 0.5rem;
+            }
+            .pixel-lastfm .artist-name {
+                font-size: 0.4rem;
+            }
         }
+
         @media (min-width: 768px) {
             .pixel-card {
                 padding: 2.5rem 2.5rem !important;
@@ -706,9 +747,9 @@
                     <div class="lastfm-gif-wrapper mt-3">
                         <a href="#" target="_blank" rel="noopener noreferrer" class="pixel-lastfm flex-1 min-w-[200px] lastfm-link" id="lastfm-link">
                             <div class="cover" id="lastfm-cover"><i class="bi bi-music-note"></i></div>
-                            <div class="flex-1 min-w-0">
-                                <p class="text-[#d8b4fe] text-xs truncate track-name" id="lastfm-track" data-lang-ru="Загрузка..." data-lang-en="Loading...">Загрузка...</p>
-                                <p class="text-[#a78bfa] text-[0.5rem] truncate artist-name" id="lastfm-artist" data-lang-ru="Загрузка..." data-lang-en="Loading...">Загрузка...</p>
+                            <div class="track-text-wrapper">
+                                <p class="text-[#d8b4fe] text-xs track-name" id="lastfm-track" data-lang-ru="Загрузка..." data-lang-en="Loading...">Загрузка...</p>
+                                <p class="text-[#a78bfa] text-[0.5rem] artist-name" id="lastfm-artist" data-lang-ru="Загрузка..." data-lang-en="Loading...">Загрузка...</p>
                                 <div class="flex items-center gap-2 mt-1 listening-status" id="lastfm-status">
                                     <span class="pulse-dot w-2 h-2"></span>
                                     <span class="text-[#4c2b7a] text-[0.4rem]" data-lang-ru="ЗАГРУЗКА" data-lang-en="LOADING">ЗАГРУЗКА</span>
@@ -792,7 +833,6 @@
                     </div>
                 </div>
 
-                <!-- ===== БЛОК ВРЕМЕНИ ===== -->
                 <div class="pixel-card rounded-none p-4 pixel-fade delay-4">
                     <div class="pixel-head"><i class="bi bi-clock"></i> <span data-lang-ru="ТЕКУЩЕЕ ВРЕМЯ" data-lang-en="CURRENT TIME">ТЕКУЩЕЕ ВРЕМЯ</span></div>
                     <div class="time-gif-wrapper text-center py-2">
@@ -805,7 +845,6 @@
                     </div>
                 </div>
 
-                <!-- ===== БЛОК ПОГОДЫ ===== -->
                 <div class="pixel-card rounded-none p-4 pixel-fade delay-5">
                     <div class="pixel-head"><i class="bi bi-cloud-sun"></i> <span data-lang-ru="ПОГОДА" data-lang-en="WEATHER">ПОГОДА</span></div>
                     <div id="weather-container" class="weather-info">
@@ -813,7 +852,6 @@
                     </div>
                 </div>
 
-                <!-- ===== БЛОК БЕЙДЖИКОВ ===== -->
                 <div class="pixel-card rounded-none p-4 pixel-fade delay-6">
                     <div class="pixel-head"><i class="bi bi-award"></i> <span data-lang-ru="БЕЙДЖИКИ" data-lang-en="BADGES">БЕЙДЖИКИ</span></div>
                     <div class="badge-container">
@@ -828,13 +866,12 @@
 
             </div>
 
-            <!-- ===== ФУТЕР С СТАТИЧЕСКОЙ ДАТОЙ ===== -->
             <div class="pixel-footer">
                 <span><i class="bi bi-person"></i> alex_void</span>
                 <span class="separator">/</span>
                 <span><i class="bi bi-calendar"></i> last updated 2026-06-28</span>
                 <span class="separator">/</span>
-                <a href="#" target="_blank"><i class="bi bi-code-square"></i> source code</a>
+                <a href="https://github.com/AlexVoidITO/personal_website/tree/master" target="_blank"><i class="bi bi-code-square"></i> source code</a>
             </div>
 
         </div>
@@ -843,7 +880,6 @@
     <script>
         document.addEventListener('DOMContentLoaded', function() {
 
-            // === ПЕРЕКЛЮЧЕНИЕ ЯЗЫКА ===
             (function() {
                 const langToggle = document.getElementById('lang-toggle');
                 let currentLang = localStorage.getItem('lang') || 'ru';
@@ -868,7 +904,6 @@
                             statusEl.innerHTML = `<span class="pulse-dot w-2 h-2"></span> <span class="text-[#4c2b7a] text-[0.4rem]">${newText}</span>`;
                         }
                     }
-                    // Перезапрашиваем погоду с новым языком
                     if (window.fetchWeather) {
                         window.fetchWeather();
                     }
@@ -885,7 +920,6 @@
                 setLanguage(currentLang);
             })();
 
-            // === ЧАСЫ ===
             function updateClock() {
                 const now = new Date();
                 const options = { timeZone: 'Europe/Moscow', hour12: false };
@@ -909,7 +943,6 @@
             updateClock();
             setInterval(updateClock, 1000);
 
-            // === LAST.FM ===
             (function() {
                 const trackNameEl = document.getElementById('lastfm-track');
                 const artistNameEl = document.getElementById('lastfm-artist');
@@ -920,7 +953,6 @@
                 const playBtn = document.getElementById('play-btn');
 
                 if (!trackNameEl || !artistNameEl || !coverEl || !statusEl || !countEl || !linkEl || !playBtn) {
-                    console.warn('Some Last.fm elements not found');
                     return;
                 }
 
@@ -936,7 +968,6 @@
                         })
                         .then(data => {
                             if (data.error) {
-                                console.warn('Last.fm error:', data.error);
                                 const lang = getCurrentLang();
                                 trackNameEl.textContent = lang === 'ru' ? 'Ошибка загрузки' : 'Loading error';
                                 artistNameEl.textContent = lang === 'ru' ? 'Недоступно' : 'Unavailable';
@@ -972,14 +1003,13 @@
                             }
                             const lang = getCurrentLang();
                             if (data.nowPlaying) {
-                                statusEl.innerHTML = `<span class="pulse-dot w-2 h-2"></span> <span class="text-[#4c2b7a] text-[0.4rem]">${lang === 'ru' ? 'СЛУШАЮТ СЕЙЧАС' : 'LISTENING NOW'}</span>`;
+                                statusEl.innerHTML = `<span class="pulse-dot w-2 h-2"></span> <span class="text-[#4c2b7a] text-[0.4rem]">${lang === 'ru' ? 'СЛУШАЕТ СЕЙЧАС' : 'LISTENING NOW'}</span>`;
                             } else {
                                 statusEl.innerHTML = `<span class="text-[#4c2b7a] text-[0.4rem]">${lang === 'ru' ? 'ПОСЛЕДНИЙ ТРЕК' : 'LAST TRACK'}</span>`;
                             }
                             countEl.innerHTML = `<i class="bi bi-headphones"></i> ${Math.floor(Math.random() * 100 + 50)}`;
                         })
                         .catch(err => {
-                            console.error('Ошибка при запросе Last.fm:', err);
                             const lang = getCurrentLang();
                             trackNameEl.textContent = lang === 'ru' ? 'Ошибка соединения' : 'Connection error';
                             artistNameEl.textContent = lang === 'ru' ? 'Недоступно' : 'Unavailable';
@@ -996,7 +1026,6 @@
                 setInterval(updateLastfm, 30000);
             })();
 
-            // === ПОГОДА ===
             (function() {
                 const container = document.getElementById('weather-container');
                 if (!container) return;
@@ -1010,9 +1039,24 @@
                     'Гроза': { ru: 'Гроза', en: 'Stormy' },
                     'Неизвестно': { ru: 'Неизвестно', en: 'Unknown' }
                 };
+                const weatherTranslationsEn = {
+                    'Clear': { ru: 'Ясно', en: 'Clear' },
+                    'Cloudy': { ru: 'Облачно', en: 'Cloudy' },
+                    'Foggy': { ru: 'Туман', en: 'Foggy' },
+                    'Rainy': { ru: 'Дождь', en: 'Rainy' },
+                    'Snowy': { ru: 'Снег', en: 'Snowy' },
+                    'Stormy': { ru: 'Гроза', en: 'Stormy' },
+                    'Unknown': { ru: 'Неизвестно', en: 'Unknown' }
+                };
 
                 function translateWeather(text, lang) {
-                    return weatherTranslations[text]?.[lang] || text;
+                    if (weatherTranslations[text] && weatherTranslations[text][lang]) {
+                        return weatherTranslations[text][lang];
+                    }
+                    if (weatherTranslationsEn[text] && weatherTranslationsEn[text][lang]) {
+                        return weatherTranslationsEn[text][lang];
+                    }
+                    return text;
                 }
 
                 function getWeatherInfo(code) {
@@ -1024,7 +1068,7 @@
                         { codes: [71, 73, 75, 77, 85, 86], text: 'Снег', gif: '/gifs/weather/snowy.mp4' },
                         { codes: [95, 96, 99], text: 'Гроза', gif: '/gifs/weather/stormy.mp4' },
                     ];
-                    const group = groups.find(g => g.codes.includes(code));
+                    const group = groups.find(g => g.codes.includes(Number(code)));
                     return group || { text: 'Неизвестно', gif: null };
                 }
 
@@ -1050,6 +1094,17 @@
                             const translatedDesc = translateWeather(desc, lang);
                             const videoPath = info.gif;
 
+                            let formattedTime = data.time;
+                            if (data.time) {
+                                try {
+                                    const date = new Date(data.time);
+                                    formattedTime = date.toLocaleString(lang === 'ru' ? 'ru-RU' : 'en-US', {
+                                        day: '2-digit', month: '2-digit', year: 'numeric',
+                                        hour: '2-digit', minute: '2-digit'
+                                    });
+                                } catch (_) {}
+                            }
+
                             let videoHtml = '';
                             if (videoPath) {
                                 videoHtml = `<video autoplay loop muted playsinline src="${videoPath}" class="weather-gif" loading="lazy"></video>`;
@@ -1061,7 +1116,7 @@
                                 ${videoHtml}
                                 <div class="weather-temp">${temp}°C</div>
                                 <div class="weather-desc">${translatedDesc}</div>
-                                <div class="weather-time">${data.time}</div>
+                                <div class="weather-time">${formattedTime}</div>
                             `;
                         })
                         .catch(err => {
